@@ -4,8 +4,12 @@ import { GlobalContext } from "../../context/Context";
 
 const Details = () => {
   const param = useParams();
-  const { recipeDetailsData, setRecipeDetailsData, handleAddToFavorite } = useContext(GlobalContext);
-  console.log(param);
+  const {
+    recipeDetailsData,
+    setRecipeDetailsData,
+    favoritesList,
+    handleAddToFavorite,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     async function getRecipeDetails() {
@@ -39,8 +43,15 @@ const Details = () => {
           {recipeDetailsData?.recipe?.title}
         </h3>
         <div>
-          <button onClick={()=> handleAddToFavorite(recipeDetailsData?.recipe)} className="p-3 px-8 rounded-lg text-sm upppercase font-medium tracking-wider mt-3 inline-block shadow-md bg-black text-white">
-            Save as favorites
+          <button
+            onClick={() => handleAddToFavorite(recipeDetailsData?.recipe)}
+            className="p-3 px-8 rounded-lg text-sm upppercase font-medium tracking-wider mt-3 inline-block shadow-md bg-black text-white"
+          >
+            { favoritesList && favoritesList.length > 0 && favoritesList.findIndex(
+              (item) => item.id === recipeDetailsData?.recipe?.id
+            ) !== -1
+              ? "Remove from favorites"
+              : "Add to favorites"}
           </button>
         </div>
         <div>
@@ -54,7 +65,9 @@ const Details = () => {
                 <span className="text-2xl font-semibold text-black">
                   {ingredient.quantity} {ingredient.unit}
                 </span>
-                <span className="text-2xl font-semibold text-black">{ingredient.description}</span>
+                <span className="text-2xl font-semibold text-black">
+                  {ingredient.description}
+                </span>
               </li>
             ))}
           </ul>
