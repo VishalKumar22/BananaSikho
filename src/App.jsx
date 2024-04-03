@@ -10,7 +10,7 @@ function App() {
     <div>
       <div className="max-h-screen  bg-white text-gray-600 text-lg"></div>
       <Navbar />
-      <Home />
+      {/* <Home /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/favorites" element={<Favorites />} />
