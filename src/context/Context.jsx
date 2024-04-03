@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Favorites from "../pages/favorites/Favorites";
 
 export const GlobalContext = createContext(null);
 
@@ -9,6 +11,7 @@ export default function GlobalContextProvider({ children }) {
   const [recipeList, setRecipeList] = useState([]);
   const [recipeDetailsData, setRecipeDetailsData] = useState(null);
   const [favoritesList, setFavoritesList] = useState([]);
+  const [toggle, setToggle ] = useState(true);
 
   const navigate = useNavigate()
 
@@ -33,7 +36,15 @@ export default function GlobalContextProvider({ children }) {
     }
   }
 
+  function toggleState() {
+    setToggle((prevToggle) => !prevToggle);
+  }
   function handleAddToFavorite(getCurrentItem) {
+    toggleState();
+    toggle
+      ? toast("Recipe Added to Favorites")
+      : toast("Recipe Removed From Favorites");
+
     console.log(getCurrentItem);
     let copyFavoritesList = [...favoritesList]
     const index = copyFavoritesList.findIndex(item => item.id === getCurrentItem.id)
